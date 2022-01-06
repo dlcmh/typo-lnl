@@ -1,0 +1,10 @@
+.styles {
+  --id: components/boxes/BorderedBox/styles.module.scss;
+  --color: var(--dakerr-border-color);
+  --padding: var(--dakerr-padding-size);
+  --style: var(--dakerr-border-style);
+  --width: var(--dakerr-border-width);
+
+  border: var(--width) var(--style) var(--color);
+  padding: var(--padding);
+}

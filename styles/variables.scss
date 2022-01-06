@@ -1,0 +1,41 @@
+:root {
+  // Bootstrap overrides
+  --bs-body-line-height: var(--dakerr-line-height);
+
+  // colors
+  --dakerr-black: black;
+  --dakerr-blue: blue;
+  --dakerr-gray: gray;
+  --dakerr-orange: orange;
+  --dakerr-yellow: yellow;
+
+  // line heights
+  --dakerr-line-height: 1rem;
+
+  // typography
+  --dakerr-bold: bold;
+
+  // paddings
+  --dakerr-gap-size: 1rem;
+  --dakerr-padding-size: 1rem;
+
+  // theme
+  --dakerr-primary-color: #000000;
+
+  // borders
+  --dakerr-border-style: solid;
+  --dakerr-border-width: 1px;
+  --dakerr-border-color: var(--dakerr-primary-color);
+
+  // CSS Grid
+  --dakerr-grid-template-columns-repeat-frequency: 3;
+  --dakerr-grid-template-columns-repeat-unit: 1fr;
+  --dakerr-grid-gap: var(--dakerr-gap-size);
+
+  // cards
+  --dakerr-card-padding: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+}

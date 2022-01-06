@@ -1,0 +1,31 @@
+.styles {
+  --id: containers/typo/TypingSpeed/styles.module.scss;
+
+  border-top: 1px dotted black;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  .resultString {
+    margin-left: 0.7rem;
+
+    /* https://www.w3docs.com/snippets/javascript/how-to-disable-text-selection-copy-cut-paste-and-right-click-on-a-web-page.html */
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    .unattempted {
+      color: black;
+    }
+    .correct {
+      color: darkgreen;
+    }
+    .wrong {
+      color: lightcoral;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  }
+}

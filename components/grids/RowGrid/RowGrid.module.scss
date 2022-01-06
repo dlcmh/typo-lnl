@@ -1,0 +1,33 @@
+// .col-2 {
+//   grid-template-columns: repeat(2, 1fr);
+
+//   // 2 ways of creating 3 flexible, equal-width columns
+//   // grid-template-columns: 1fr 1fr 1fr;
+//   // grid-template-columns: repeat(3, 1fr);
+
+//   // using variables - https://github.com/vercel/next.js/discussions/12147#discussioncomment-1418412
+//   // https://sass-lang.com/documentation/variables
+//   // grid-template-columns: repeat(
+//   //   var(--dakerr-grid-template-columns-repeat),
+//   //   $length
+//   // );
+
+//   // 3 cols: 1 at 75% width, remaining width shared equally
+//   // grid-template-columns: 75% 1fr 1fr;
+//   // grid-template-columns: 1fr 1fr 75%;
+// }
+
+// @for $i from 3 through 12 {
+//   .col-#{$i} {
+//     grid-template-columns: repeat(#{$i}, 1fr);
+//   }
+// }
+
+.base {
+  --grid-template-columns: repeat(
+    var(--dakerr-grid-template-columns-repeat-frequency),
+    var(--dakerr-grid-template-columns-repeat-unit)
+  );
+
+  grid-template-columns: var(--grid-template-columns);
+}
