@@ -1,0 +1,14 @@
+.styles {
+  --id: components/flex/FlexWrap/styles.module.scss;
+  --gap: var(--dakerr-gap-size);
+
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: var(--gap);
+
+  & > * {
+    margin-top: var(--gap);
+    margin-left: calc(var(--gap) / 2);
+    margin-right: calc(var(--gap) / 2);
+  }
+}

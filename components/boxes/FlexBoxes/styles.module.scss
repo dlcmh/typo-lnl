@@ -1,0 +1,22 @@
+// https://1linelayouts.glitch.me
+.base {
+  display: flex;
+
+  margin-top: var(--dakerr-gap-size);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border: 1px solid var(--dakerr-black);
+
+  padding: var(--dakerr-padding-size);
+
+  margin-left: var(--dakerr-gap-size);
+
+  &:first-of-type {
+    margin-left: 0;
+  }
+}

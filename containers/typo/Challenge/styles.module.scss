@@ -1,0 +1,14 @@
+.styles {
+  --id: containers/typo/Challenge/styles.module.scss;
+
+  border-top: 1px dashed black;
+  background-color: lightgoldenrodyellow;
+  height: 100%;
+  padding: var(--dakerr-padding-size);
+
+  .ownScores {
+    background-color: lightsalmon;
+    margin-top: 2rem;
+    padding: var(--dakerr-padding-size);
+  }
+}

@@ -1,0 +1,10 @@
+// https://1linelayouts.glitch.me
+.base {
+  --border: var(--dakerr-border-width) var(--dakerr-border-style)
+    var(--dakerr-border-color);
+  --padding: var(--dakerr-card-padding);
+
+  border: var(--border);
+  place-items: center;
+  padding: var(--padding);
+}

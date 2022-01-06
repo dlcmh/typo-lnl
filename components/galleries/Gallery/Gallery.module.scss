@@ -1,0 +1,27 @@
+// https://1linelayouts.glitch.me
+.base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  border: 1px solid black;
+
+  width: 490px;
+
+  padding-bottom: 1rem;
+}
+
+.card {
+  background-color: lightgoldenrodyellow;
+  border: 1px solid darkorange;
+
+  display: grid;
+  place-items: center;
+
+  box-sizing: border-box;
+  height: 100px;
+  width: 100px;
+  margin: 1rem;
+  margin-bottom: 0;
+  padding: 1rem;
+}
