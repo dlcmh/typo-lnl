@@ -35,16 +35,18 @@ type Score = {
 }
 
 const fetchScoresStates = {
-  initial: 'fetching',
+  initial: 'lol',
   states: {
-    fetching: {
+    lol: {
       invoke: {
         src: () => fetchScores,
-        onDone: 'fetched',
+        onDone: {
+          actions: send((_context, event: DoneInvokeEvent<any>) => ({
+            type: Event.SCORES_FETCHED,
+            data: event.data,
+          })),
+        },
       },
-    },
-    fetched: {
-      type: 'final',
     },
   },
 }
@@ -52,63 +54,62 @@ const fetchScoresStates = {
 export const scoresMachine = createMachine<MachineContext, MachineEvent>(
   {
     id: 'scores',
-    initial: State.fetchingScores,
+    initial: State.active,
     context: {
       scores: [],
     },
     states: {
-      [State.fetchingScores]: {
+      // [State.fetchingScores]: {
+      //   on: {
+      //     [Event.SCORES_FETCHED]: {
+      //       actions: [Action.updateWithFetchedScores],
+      //       target: State.active,
+      //     },
+      //   },
+
+      //   // child states
+      //   initial: 'lol',
+      //   states: {
+      //     lol: {
+      //       invoke: {
+      //         src: () => fetchScores,
+      //         onDone: {
+      //           actions: send((_context, event) => ({
+      //             type: Event.SCORES_FETCHED,
+      //             data: event.data,
+      //           })),
+      //         },
+      //       },
+      //     },
+      //   },
+      // },
+      [State.active]: {
         on: {
           [Event.SCORES_FETCHED]: {
             actions: [Action.updateWithFetchedScores],
             target: State.active,
           },
+          [Event.SCORE_FROM_ABLY]: {
+            actions: [Action.updateWithScoreFromAbly],
+          },
         },
+        invoke: [{ src: Service.ablySubscriber }],
 
         // child states
         initial: 'lol',
         states: {
           lol: {
-            invoke: [
-              {
-                src: () => fetchScores,
-                onDone: {
-                  actions: [
-                    send((_context, event) => {
-                      console.log('dlc event', event)
-                      return {
-                        type: Event.SCORES_FETCHED,
-                        data: event.data,
-                      }
-                    }),
-                  ],
-                },
+            invoke: {
+              src: () => fetchScores,
+              onDone: {
+                actions: send((_context, event) => ({
+                  type: Event.SCORES_FETCHED,
+                  data: event.data,
+                })),
               },
-            ],
+            },
           },
         },
-      },
-      [State.active]: {
-        on: {
-          [Event.SCORE_FROM_ABLY]: {
-            actions: [Action.updateWithScoreFromAbly],
-          },
-        },
-        invoke: [
-          { src: Service.ablySubscriber },
-          // {
-          //   src: () => fetchScores,
-          //   onDone: { actions: [Action.updateWithFetchedScores] },
-          // },
-        ],
-        // initial: 'lol',
-        // states: {
-        //   lol: {
-        //     entry: () => {
-        //       console.log('lol')
-        //     },
-        //   },
-        // },
       },
     },
   },
