@@ -1,3 +1,7 @@
+## Setup
+
+To run locally, copy `.env.example` to `.env.local` and fill up with the appropriate values.
+
 ## Live demo
 
 https://typo-lnl.vercel.app
@@ -13,3 +17,7 @@ https://typo-lnl.vercel.app
 ### Implementation examples
 
 https://gist.github.com/dlcmh/40a8a6bcaf0a2e947c2b03aa9b6bf675
+
+## CSS Modules
+
+Short doc - https://github.com/css-modules/css-modules
