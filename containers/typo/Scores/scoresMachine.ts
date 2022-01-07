@@ -14,6 +14,12 @@ enum Event {
   SCORES_FETCHED = 'SCORES_FETCHED',
   SCORE_FROM_ABLY = 'SCORE_FROM_ABLY',
 }
+type Score = {
+  id: string
+  userHandle: string
+  completed: string
+  averageWpm: number
+}
 type MachineEvent =
   | { type: Event.SCORE_FROM_ABLY; value: Score }
   | { type: Event.SCORES_FETCHED }
@@ -27,89 +33,31 @@ enum Action {
   updateWithFetchedScores = 'updateWithFetchedScores',
   updateWithScoreFromAbly = 'updateWithScoreFromAbly',
 }
-type Score = {
-  id: string
-  userHandle: string
-  completed: string
-  averageWpm: number
-}
-
-const fetchScoresStates = {
-  initial: 'lol',
-  states: {
-    lol: {
-      invoke: {
-        src: () => fetchScores,
-        onDone: {
-          actions: send((_context, event: DoneInvokeEvent<any>) => ({
-            type: Event.SCORES_FETCHED,
-            data: event.data,
-          })),
-        },
-      },
-    },
-  },
-}
 
 export const scoresMachine = createMachine<MachineContext, MachineEvent>(
   {
     id: 'scores',
-    initial: State.active,
+    initial: State.fetchingScores,
     context: {
       scores: [],
     },
     states: {
-      // [State.fetchingScores]: {
-      //   on: {
-      //     [Event.SCORES_FETCHED]: {
-      //       actions: [Action.updateWithFetchedScores],
-      //       target: State.active,
-      //     },
-      //   },
-
-      //   // child states
-      //   initial: 'lol',
-      //   states: {
-      //     lol: {
-      //       invoke: {
-      //         src: () => fetchScores,
-      //         onDone: {
-      //           actions: send((_context, event) => ({
-      //             type: Event.SCORES_FETCHED,
-      //             data: event.data,
-      //           })),
-      //         },
-      //       },
-      //     },
-      //   },
-      // },
-      [State.active]: {
-        on: {
-          [Event.SCORES_FETCHED]: {
+      [State.fetchingScores]: {
+        invoke: {
+          src: () => fetchScores,
+          onDone: {
             actions: [Action.updateWithFetchedScores],
             target: State.active,
           },
+        },
+      },
+      [State.active]: {
+        on: {
           [Event.SCORE_FROM_ABLY]: {
             actions: [Action.updateWithScoreFromAbly],
           },
         },
         invoke: [{ src: Service.ablySubscriber }],
-
-        // child states
-        initial: 'lol',
-        states: {
-          lol: {
-            invoke: {
-              src: () => fetchScores,
-              onDone: {
-                actions: send((_context, event) => ({
-                  type: Event.SCORES_FETCHED,
-                  data: event.data,
-                })),
-              },
-            },
-          },
-        },
       },
     },
   },

@@ -1,7 +1,6 @@
 import { assign } from '@xstate/immer'
-import { getUtfCharacterCount } from 'helpers/getUtfCharacterCount'
-import { getWords } from 'helpers/getWords'
 import { createMachine } from 'xstate'
+import { getUtfCharacterCount, getWords } from './utils'
 
 export enum Event {
   DID_TYPE = 'DID_TYPE',

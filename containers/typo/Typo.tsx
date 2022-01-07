@@ -14,6 +14,9 @@ export function Typo() {
   return (
     <AntdBasePage title="The Typo Challenge">
       <section className={styles.typo}>
+        <p>
+          <a href="https://github.com/dlcmh/typo-lnl">GitHub repo</a>
+        </p>
         {state.matches(State.loggedOut) && (
           <Login
             onLogin={({ userHandle }) => {
