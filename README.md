@@ -18,6 +18,15 @@ https://typo-lnl.vercel.app
 
 https://gist.github.com/dlcmh/40a8a6bcaf0a2e947c2b03aa9b6bf675
 
+## Ably
+
+Hosted websocket
+
+### Why?
+
+- [Rails ActionCable: The good and the bad for developers](https://ably.com/blog/rails-actioncable-the-good-and-the-bad)
+- hosted WebSocket service, generous free limits - https://ably.com/pricing
+
 ## Azure Cosmos DB
 
 ### Why?
