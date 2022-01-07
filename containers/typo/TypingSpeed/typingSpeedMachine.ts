@@ -155,6 +155,7 @@ export const typingSpeedMachine = createMachine(
           callback(Event.TICK)
         }, 1000 * context.intervalInSeconds)
 
+        // perform cleanup
         return () => clearInterval(interval)
       },
     },

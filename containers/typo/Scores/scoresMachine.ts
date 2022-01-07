@@ -1,19 +1,27 @@
 import { assign } from '@xstate/immer'
 import { Realtime } from 'ably'
 import { fetchScores } from 'helpers/cosmosdb/fetchScores'
-import { createMachine, EventObject } from 'xstate'
+import { createMachine, DoneInvokeEvent, send } from 'xstate'
 
 const ABLY_API_KEY = process.env.NEXT_PUBLIC_ABLY_API_KEY
 const ABLY_CHANNEL_NAME = process.env.NEXT_PUBLIC_ABLY_CHANNEL_NAME
 
-enum State {
+export enum State {
   active = 'active',
+  fetchingScores = 'fetchingScores',
+}
+enum Event {
+  SCORES_FETCHED = 'SCORES_FETCHED',
+  SCORE_FROM_ABLY = 'SCORE_FROM_ABLY',
+}
+type MachineEvent =
+  | { type: Event.SCORE_FROM_ABLY; value: Score }
+  | { type: Event.SCORES_FETCHED }
+interface MachineContext {
+  scores: Score[]
 }
 enum Service {
   ablySubscriber = 'ablySubscriber',
-}
-enum Event {
-  SCORE_FROM_ABLY = 'SCORE_FROM_ABLY',
 }
 enum Action {
   updateWithFetchedScores = 'updateWithFetchedScores',
@@ -25,21 +33,61 @@ type Score = {
   completed: string
   averageWpm: number
 }
-type ScoresFetchedEvent = EventObject & {
-  data?: Score[]
-}
-interface ScoreFromAblyEvent extends EventObject {
-  value: Score
+
+const fetchScoresStates = {
+  initial: 'fetching',
+  states: {
+    fetching: {
+      invoke: {
+        src: () => fetchScores,
+        onDone: 'fetched',
+      },
+    },
+    fetched: {
+      type: 'final',
+    },
+  },
 }
 
-export const scoresMachine = createMachine(
+export const scoresMachine = createMachine<MachineContext, MachineEvent>(
   {
     id: 'scores',
-    initial: State.active,
+    initial: State.fetchingScores,
     context: {
-      scores: [] as Score[],
+      scores: [],
     },
     states: {
+      [State.fetchingScores]: {
+        on: {
+          [Event.SCORES_FETCHED]: {
+            actions: [Action.updateWithFetchedScores],
+            target: State.active,
+          },
+        },
+
+        // child states
+        initial: 'lol',
+        states: {
+          lol: {
+            invoke: [
+              {
+                src: () => fetchScores,
+                onDone: {
+                  actions: [
+                    send((_context, event) => {
+                      console.log('dlc event', event)
+                      return {
+                        type: Event.SCORES_FETCHED,
+                        data: event.data,
+                      }
+                    }),
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
       [State.active]: {
         on: {
           [Event.SCORE_FROM_ABLY]: {
@@ -48,18 +96,30 @@ export const scoresMachine = createMachine(
         },
         invoke: [
           { src: Service.ablySubscriber },
-          {
-            src: () => fetchScores,
-            onDone: { actions: [Action.updateWithFetchedScores] },
-          },
+          // {
+          //   src: () => fetchScores,
+          //   onDone: { actions: [Action.updateWithFetchedScores] },
+          // },
         ],
+        // initial: 'lol',
+        // states: {
+        //   lol: {
+        //     entry: () => {
+        //       console.log('lol')
+        //     },
+        //   },
+        // },
       },
     },
   },
   {
     actions: {
+      // onDone/onError events in machine options
+      // https://xstate.js.org/docs/guides/typescript.html#ondone-onerror-events-in-machine-options
       [Action.updateWithFetchedScores]: assign((context, e: any) => {
-        const { data = [] } = e as ScoresFetchedEvent
+        const event: DoneInvokeEvent<Score[]> = e
+        const { data } = event
+
         context.scores = data.map((score) => ({
           id: score.id,
           userHandle: score.userHandle,
@@ -67,13 +127,19 @@ export const scoresMachine = createMachine(
           averageWpm: score.averageWpm,
         }))
       }),
-      [Action.updateWithScoreFromAbly]: assign((context, e: any) => {
-        const { value } = e as ScoreFromAblyEvent
-        // https://immerjs.github.io/immer/update-patterns/#array-mutations
+
+      // Events in machine options
+      // https://xstate.js.org/docs/guides/typescript.html#events-in-machine-options
+      [Action.updateWithScoreFromAbly]: assign((context, event) => {
+        if (event.type !== Event.SCORE_FROM_ABLY) return
+        const { value } = event
+
         const scores = context.scores
         const index = scores.findIndex(
           (score) => score.userHandle === value.userHandle
         )
+
+        // https://immerjs.github.io/immer/update-patterns/#array-mutations
         if (index !== -1) {
           scores[index] = value
         } else {
@@ -82,9 +148,7 @@ export const scoresMachine = createMachine(
       }),
     },
     services: {
-      // https://egghead.io/lessons/xstate-invoke-callbacks-to-send-and-receive-events-from-a-parent-xstate-machine
-      // XState: Why I Love Invoked Callbacks - https://dev.to/mpocock1/xstate-why-i-love-invoked-callbacks-2f6i
-      // https://xstate.js.org/docs/guides/communication.html#invoking-callbacks
+      // invoking callbacks - https://gist.github.com/dlcmh/40a8a6bcaf0a2e947c2b03aa9b6bf675#gistcomment-4018384
       // - callback sends events back to the parent
       // - onReceive listens for events sent from parent
       [Service.ablySubscriber]: () => (callback) => {
