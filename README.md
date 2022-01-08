@@ -1,6 +1,16 @@
 ## Setup
 
-To run locally, copy `.env.example` to `.env.local` and fill up with the appropriate values.
+### To run locally...
+
+Copy `.env.example` to `.env.local` and fill up with the appropriate values.
+
+`npm i`
+
+`npm run dev`
+
+### To run production build locally...
+
+`npm run build && npm run start`
 
 ## Live demo
 
