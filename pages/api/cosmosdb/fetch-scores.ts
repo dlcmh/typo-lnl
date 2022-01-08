@@ -13,7 +13,7 @@ export default async function handler(
    */
   const querySpec = {
     // query: 'SELECT c.id, c.userHandle, c.completed from c',
-    query: 'SELECT * from c',
+    query: 'SELECT * from c order by c.averageWpm DESC',
   }
 
   const response = await container.items.query(querySpec).fetchAll()
