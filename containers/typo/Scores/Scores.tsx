@@ -9,7 +9,7 @@ export function Scores() {
 
   return (
     <div className={styles.styles}>
-      <h4>Scores {state.value}</h4>
+      <h4>Scores (scoresMachine {state.value})</h4>
       <Table
         pagination={{ defaultPageSize: 50 }}
         columns={columns}

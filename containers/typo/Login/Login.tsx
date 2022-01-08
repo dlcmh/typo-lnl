@@ -7,6 +7,7 @@ import {
   MIN_USER_HANDLE_LENGTH,
   State,
 } from './loginMachine'
+import styles from './styles.module.scss'
 
 const nullOnLogin = () => {}
 
@@ -20,7 +21,8 @@ export const Login: FC<Props> = ({ onLogin = nullOnLogin }) => {
   const logIn = () => onLogin({ userHandle: state.context.userHandle })
 
   return (
-    <div>
+    <div className={styles.styles}>
+      <h4>loginMachine {state.value}</h4>
       <p>
         Enter your user handle ({MIN_USER_HANDLE_LENGTH} characters minimum):
       </p>

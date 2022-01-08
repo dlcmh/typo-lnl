@@ -18,6 +18,9 @@ enum Action {
   updateUserHandle = 'updateUserHandle',
 }
 
+const userHandleIsValid = (handle: string) =>
+  (handle || '').length >= MIN_USER_HANDLE_LENGTH
+
 export const loginMachine = createMachine<any>(
   {
     id: 'login',
@@ -34,14 +37,17 @@ export const loginMachine = createMachine<any>(
       [State.loggedOut]: {
         always: {
           target: State.userHandleIsValid,
-          cond: (context) =>
-            (context.userHandle || '').length >= MIN_USER_HANDLE_LENGTH,
+          cond: (context) => userHandleIsValid(context.userHandle),
         },
         on: {
           [Event.USER_HANDLE_ENTRY]: { actions: [Action.updateUserHandle] },
         },
       },
       [State.userHandleIsValid]: {
+        always: {
+          target: State.loggedOut,
+          cond: (context) => !userHandleIsValid(context.userHandle),
+        },
         on: {
           [Event.LOG_IN]: {
             target: [State.loggedIn],

@@ -17,6 +17,7 @@ export function Typo() {
         <p>
           <a href="https://github.com/dlcmh/typo-lnl">GitHub repo</a>
         </p>
+        <h4>typoMachine {state.value}</h4>
         {state.matches(State.loggedOut) && (
           <Login
             onLogin={({ userHandle }) => {
