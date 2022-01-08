@@ -11,6 +11,7 @@ export function Scores() {
     <div className={styles.styles}>
       <h4>Scores {state.value}</h4>
       <Table
+        pagination={{ defaultPageSize: 50 }}
         columns={columns}
         dataSource={state.context.scores}
         rowKey="userHandle"
