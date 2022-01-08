@@ -1,5 +1,6 @@
 import { assign } from '@xstate/immer'
 import { createMachine } from 'xstate'
+import { clearUserHandle } from './typoStore'
 
 export enum State {
   loggedIn = 'loggedIn',
@@ -28,6 +29,7 @@ export const typoMachine = createMachine<any>(
           [Event.LOG_OUT]: {
             actions: assign((context) => {
               context.userHandle = undefined
+              clearUserHandle()
             }),
             target: State.loggedOut,
           },
