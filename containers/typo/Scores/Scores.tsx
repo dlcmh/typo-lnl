@@ -16,6 +16,7 @@ export function Scores() {
         dataSource={state.context.scores}
         rowKey="userHandle"
         loading={state.matches(State.fetchingScores)}
+        scroll={{ y: '50vh' }}
       />
     </div>
   )
