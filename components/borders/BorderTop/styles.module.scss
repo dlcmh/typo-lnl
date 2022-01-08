@@ -1,0 +1,8 @@
+.styles {
+  --id: components/borders/BorderTop/styles.module.scss;
+  --top: 1px dashed var(--dakerr-black);
+
+  border-top: var(--top);
+  margin-top: var(--dakerr-padding-size);
+  padding-top: var(--dakerr-padding-size);
+}

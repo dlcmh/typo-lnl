@@ -1,5 +1,6 @@
 import { useMachine } from '@xstate/react'
 import { Button } from 'antd'
+import { BorderTop } from 'components/borders'
 import { FC } from 'react'
 import { Event, profileMachine } from './profileMachine'
 
@@ -13,9 +14,9 @@ export const Profile: FC<Props> = ({ onLogout = nullOnLogout }) => {
   const [state, send] = useMachine(profileMachine)
 
   return (
-    <div>
-      <h4>s {state.context.userHandle}</h4>
+    <BorderTop>
       <h3>{state.context.userHandle} in da house!</h3>
+      <h4>profileMachine {state.value}</h4>
       <p>
         <Button
           danger
@@ -28,6 +29,6 @@ export const Profile: FC<Props> = ({ onLogout = nullOnLogout }) => {
           Log out
         </Button>
       </p>
-    </div>
+    </BorderTop>
   )
 }

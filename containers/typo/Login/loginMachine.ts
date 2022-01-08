@@ -5,9 +5,9 @@ import { setUserHandle } from '../typoStore/setUserHandle'
 export const MIN_USER_HANDLE_LENGTH = 3
 
 export enum State {
+  ready = 'ready',
   userHandleIsValid = 'handleIsValid',
-  loggedIn = 'loggedIn',
-  loggedOut = 'loggedOut',
+  submitted = 'submitted',
 }
 
 export enum Event {
@@ -25,17 +25,12 @@ const userHandleIsValid = (handle: string) =>
 export const loginMachine = createMachine<any>(
   {
     id: 'login',
-    initial: State.loggedOut,
+    initial: State.ready,
     context: {
       userHandle: undefined,
     },
     states: {
-      [State.loggedIn]: {
-        // https://xstate.js.org/docs/guides/final.html#api
-        // https://xstate.js.org/docs/guides/communication.html#done-data
-        type: 'final',
-      },
-      [State.loggedOut]: {
+      [State.ready]: {
         always: {
           target: State.userHandleIsValid,
           cond: (context) => userHandleIsValid(context.userHandle),
@@ -46,15 +41,20 @@ export const loginMachine = createMachine<any>(
       },
       [State.userHandleIsValid]: {
         always: {
-          target: State.loggedOut,
+          target: State.ready,
           cond: (context) => !userHandleIsValid(context.userHandle),
         },
         on: {
           [Event.LOG_IN]: {
-            target: [State.loggedIn],
+            target: [State.submitted],
           },
           [Event.USER_HANDLE_ENTRY]: { actions: [Action.updateUserHandle] },
         },
+      },
+      [State.submitted]: {
+        // https://xstate.js.org/docs/guides/final.html#api
+        // https://xstate.js.org/docs/guides/communication.html#done-data
+        type: 'final',
       },
     },
   },

@@ -1,5 +1,6 @@
 import { useMachine } from '@xstate/react'
 import { Button, Input } from 'antd'
+import { BorderTop } from 'components/borders'
 import { FC } from 'react'
 import {
   Event,
@@ -7,7 +8,6 @@ import {
   MIN_USER_HANDLE_LENGTH,
   State,
 } from './loginMachine'
-import styles from './styles.module.scss'
 
 const nullOnLogin = () => {}
 
@@ -21,7 +21,7 @@ export const Login: FC<Props> = ({ onLogin = nullOnLogin }) => {
   const logIn = () => onLogin({ userHandle: state.context.userHandle })
 
   return (
-    <div className={styles.styles}>
+    <BorderTop>
       <h4>loginMachine {state.value}</h4>
       <p>
         Enter your user handle ({MIN_USER_HANDLE_LENGTH} characters minimum):
@@ -55,6 +55,6 @@ export const Login: FC<Props> = ({ onLogin = nullOnLogin }) => {
           Log in
         </Button>
       </p>
-    </div>
+    </BorderTop>
   )
 }
