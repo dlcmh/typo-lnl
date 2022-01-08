@@ -7,17 +7,14 @@ const nullOnLogout = () => {}
 
 interface Props {
   onLogout: () => void
-  userHandle?: string
 }
 
-export const Profile: FC<Props> = ({
-  userHandle = '',
-  onLogout = nullOnLogout,
-}) => {
-  const [state, send] = useMachine(profileMachine(userHandle))
+export const Profile: FC<Props> = ({ onLogout = nullOnLogout }) => {
+  const [state, send] = useMachine(profileMachine)
 
   return (
     <div>
+      <h4>s {state.context.userHandle}</h4>
       <h3>{state.context.userHandle} in da house!</h3>
       <p>
         <Button

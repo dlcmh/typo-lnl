@@ -1,5 +1,6 @@
 import { assign } from '@xstate/immer'
 import { createMachine } from 'xstate'
+import { setUserHandle } from '../typoStore/setUserHandle'
 
 export const MIN_USER_HANDLE_LENGTH = 3
 
@@ -61,6 +62,7 @@ export const loginMachine = createMachine<any>(
     actions: {
       [Action.updateUserHandle]: assign((context, { value }) => {
         context.userHandle = value
+        setUserHandle(value)
       }),
     },
   }

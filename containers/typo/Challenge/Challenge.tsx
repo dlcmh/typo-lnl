@@ -1,6 +1,7 @@
 import { useMachine } from '@xstate/react'
 import { Button } from 'antd'
 import { FC, useEffect } from 'react'
+import { useTypoStore } from '../typoStore/useTypoStore'
 import { TypingSpeed } from '../TypingSpeed'
 import { challengeMachine, Event, State } from './challengeMachine'
 import styles from './styles.module.scss'
@@ -18,6 +19,7 @@ interface Props {
 
 export const Challenge: FC<Props> = ({ userHandle }) => {
   const [state, send] = useMachine(challengeMachine)
+  const handle = useTypoStore((state) => state.userHandle)
 
   useEffect(() => {
     send(Event.INIT, { userHandle, challenges: CHALLENGES })
@@ -34,6 +36,7 @@ export const Challenge: FC<Props> = ({ userHandle }) => {
   return (
     <>
       <div className={styles.styles}>
+        <h4>handle {handle}</h4>
         <h4>
           challengeMachine {state.value}
           {state.matches(State.playing) &&

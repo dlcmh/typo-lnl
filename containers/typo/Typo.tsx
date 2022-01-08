@@ -27,10 +27,7 @@ export function Typo() {
         )}
 
         {state.matches(State.loggedIn) && (
-          <Profile
-            userHandle={state.context.userHandle}
-            onLogout={() => send(Event.LOG_OUT)}
-          />
+          <Profile onLogout={() => send(Event.LOG_OUT)} />
         )}
 
         {state.matches(State.loggedIn) && (
