@@ -55,9 +55,27 @@ Hosted websocket
   - where conditions
   - all properties/fields are indexed by default (unlike PK & SK on DynamoDB)
 
-### End-to-end example
+### Stuff worth reading
 
-This is really worth reading https://devblogs.microsoft.com/cosmosdb/getting-started-end-to-end-example-1/
+[Azure Cosmos DB Blog](https://devblogs.microsoft.com/cosmosdb/)
+
+#### Use cases
+
+[Common use cases and scenarios for Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/use-cases)
+
+[Azure Cosmos DB design pattern: Social media apps](https://docs.microsoft.com/en-us/azure/cosmos-db/social-media-apps)
+
+[Getting Started with Graph Databases in Azure Cosmos DB](https://towardsdatascience.com/getting-started-with-graph-databases-in-azure-cosmos-db-cbfbf708cda5)
+
+[Part 1: Getting started with Azure Cosmos DB](https://devblogs.microsoft.com/cosmosdb/getting-started-end-to-end-example-1/)
+
+[Part 2: Optimizing queries, performance tuning, pagination, indexing](https://devblogs.microsoft.com/cosmosdb/getting-started-end-to-end-example-2/)
+
+#### Modeling data
+
+[Modeling data in Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/sql/modeling-data)
+
+[Model and partition data on Azure Cosmos DB with a real-world example](https://docs.microsoft.com/en-us/azure/cosmos-db/sql/how-to-model-partition-example)
 
 ### Implementation examples
 
