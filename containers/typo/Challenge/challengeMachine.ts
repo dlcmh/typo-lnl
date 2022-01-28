@@ -26,7 +26,7 @@ enum Action {
   init = 'init',
   startNextChallenge = 'startNextChallenge',
   publishToAbly = 'publishToAbly',
-  writeToCognos = 'writeToCognos',
+  writeToCosmos = 'writeToCosmos',
 }
 
 enum Service {
@@ -81,7 +81,7 @@ export const challengeMachine = createMachine(
             actions: [
               Action.addCompletedChallenge,
               Action.publishToAbly,
-              Action.writeToCognos,
+              Action.writeToCosmos,
               Action.startNextChallenge,
             ],
           },
@@ -137,7 +137,7 @@ export const challengeMachine = createMachine(
         context.currentChallenge =
           context.challenges[context.currentChallengeSequence - 1]
       }),
-      [Action.writeToCognos]: (context) => {
+      [Action.writeToCosmos]: (context) => {
         upsertScore(context.score)
       },
     },
